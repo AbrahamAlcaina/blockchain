@@ -21,7 +21,7 @@ nextBlock previous time raw = Block {
   indexBlock = indexBlock previous
   , timeStamp = time
   , rawData = raw
-  , hash = ""
+  , hash = C.pack ""
   , previousHash = previousHash previous
 }
 
