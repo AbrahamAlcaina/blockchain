@@ -1,7 +1,7 @@
 module SpecHelper (
     module Test.Hspec
     , module Test.Hspec.QuickCheck
-) where 
+) where
 
-import Test.Hspec
-import Test.Hspec.QuickCheck
+import           Test.Hspec
+import           Test.Hspec.QuickCheck
