@@ -6,6 +6,7 @@
 *~
 *_flymake.hs
 .hsenv
+blockchain-test.tix
 .stack-work/
 .stack-root/
 /.cabal-sandbox/
