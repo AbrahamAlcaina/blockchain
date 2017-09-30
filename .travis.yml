@@ -40,4 +40,4 @@ script:
 - stack --no-terminal test --haddock --no-haddock-deps --coverage
 after_script:
   - stack install hpc-coveralls
-  - hpc-coveralls --display-report blockchain blockchain-test blockchain-exe
+  - hpc-coveralls --display-report blockchain-test
