@@ -6,6 +6,7 @@
 *~
 *_flymake.hs
 .hsenv
+.DS_Store
 blockchain-test.tix
 .stack-work/
 .stack-root/
