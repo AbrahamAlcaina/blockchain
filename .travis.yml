@@ -30,6 +30,7 @@ before_install:
 - mkdir -p ~/.local/bin
 - export PATH=$HOME/.local/bin:$PATH
 - travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'
+- stack install hpc-coveralls
 
 install:
 # Build dependencies
@@ -39,5 +40,4 @@ script:
 # Build the package, its tests, and its docs and run the tests
 - stack --no-terminal test --haddock --no-haddock-deps --coverage
 after_script:
-  - stack install hpc-coveralls
-  - hpc-coveralls --display-report blockchain-test
+- hpc-coveralls --display-report blockchain-test
