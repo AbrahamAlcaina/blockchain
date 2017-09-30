@@ -33,6 +33,11 @@
        "args": [ "echo START_STACK_TEST && cd ${workspaceRoot} && stack test && echo END_STACK_TEST " ]
     },
     { 
+       "isTestCommand": true,
+       "taskName": "stack cover",
+       "args": [ "echo START_STACK_TEST && cd ${workspaceRoot} && stack test --coverage && echo END_STACK_TEST " ]
+    },
+    { 
        "isBackground": true,
        "taskName": "stack watch",
        "args": [ "echo START_STACK_WATCH && cd ${workspaceRoot} && stack build --test --no-run-tests --file-watch && echo END_STACK_WATCH " ]
