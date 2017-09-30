@@ -40,4 +40,4 @@ script:
 - stack --no-terminal test --haddock --no-haddock-deps --coverage
 after_script:
   - travis_retry curl -L https://github.com/rubik/stack-hpc-coveralls/releases/download/v0.4.1.0/shc-linux-x64-$GHCVER.tar.bz2 | tar -xj
-  - ./shc argon argon-test
+  - ./shc blockain blockchain-test
