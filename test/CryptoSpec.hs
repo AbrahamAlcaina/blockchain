@@ -1,7 +1,6 @@
 module CryptoSpec (spec) where
 
 import           Crypto
-import           Crypto.Sign.Ed25519
 import qualified Data.ByteString       as BS
 import qualified Data.ByteString.Char8 as C
 import           SpecHelper
@@ -9,7 +8,7 @@ import           SpecHelper
 spec::Spec
 spec = describe "Crypto fixture" $ do
     it "Should Sign" $
-        getByteStream `shouldBe` C.pack getHash
+        getByteStream `shouldBe` getHash
     {- generate private & public key
     it "should generate keys" $ do
         (pk, sk) <- createKeys
@@ -17,5 +16,5 @@ spec = describe "Crypto fixture" $ do
         BS.writeFile "./test/utils/pk" (unPublicKey pk)
     -}
 getByteStream = hashMsg $ C.pack "hola"
-getHash = "\232>\133\&5\214\246\137I>X\EM\189`\170>_\220\186\148\SOm\DC1\SUB\182\251\\4\242O\134Ik\243rn+\244\236Y\214\210\245\162\174\177\228\241\ETX(>}d\228\244\156\ETX\180\196r\\\179a\231s"
+getHash = "42a46be94ae2242bdc13620cb065e64391059b8f909e27208293f462f3dd51669811446b3f8227c72bf6a1cf2628584429578b5d41756fbd02b40b45bfae8faf"
 

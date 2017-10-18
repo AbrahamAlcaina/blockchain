@@ -17,12 +17,12 @@ genesisBlock = Block {
   , previousHash = C.pack ""
 }
 
-nextBlock previous time raw = Block {
-  indexBlock = indexBlock previous
+nextBlock previousBlock time raw = Block {
+  indexBlock = indexBlock previousBlock
   , timeStamp = time
   , rawData = raw
   , hash = C.pack ""
-  , previousHash = previousHash previous
+  , previousHash = previousHash previousBlock
 }
 
 getIndex = indexBlock
