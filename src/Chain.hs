@@ -1,11 +1,12 @@
-module Chain (genesisBlock, getIndex, getPreviousHash, getHash, getGenesisHash, nextBlock, getTimeStamp, getRawData) where
+module Chain (genesisBlock, getIndex, getPreviousHash, getHash, getGenesisHash, nextBlock, getTimeStamp, getRawData, Blockchain) where
 
 import           Crypto                (hashMsg)
 import qualified Data.ByteString       as BS
 import qualified Data.ByteString.Char8 as C
 import           Data.Time.Clock
+import           Data.Vector           (Vector)
 
-type Blockchain = [Block]
+type Blockchain = Vector Block
 
 data Block = Block { indexBlock::Int, timeStamp::String, rawData, hash::BS.ByteString, previousHash::BS.ByteString }
   | GenesisBlock {indexBlock::Int, hash::BS.ByteString} deriving (Show)
