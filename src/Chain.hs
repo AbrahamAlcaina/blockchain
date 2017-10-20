@@ -30,4 +30,4 @@ getTimeStamp = timeStamp
 getRawData = rawData
 getHash = hash
 getPreviousHash = previousHash
-getGenesisHash = C.pack "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7"
+getGenesisHash = C.pack "75e13da2e9a446e01594ee3fda021abb1d8cfc11d8bda49735b692c5ef632285c3c937eb159e68cee47c9e53f6f721f0a4cf2099c4c01509f84de5aa38fdba79"
