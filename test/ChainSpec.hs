@@ -1,6 +1,7 @@
 module ChainSpec (spec) where
 
 import           Chain
+import           Crypto                (hashMsg)
 import qualified Data.ByteString.Char8 as C
 import           SpecHelper
 
@@ -15,13 +16,16 @@ spec =
                     getHash genesisBlock `shouldBe` getGenesisHash
                 describe "When I create a new block" $ do
                     it "Then the previousHash Should be the genesis Hash" $
-                        getPreviousHash (nextBlock genesisBlock time rawData) `shouldBe` getGenesisHash
+                        getPreviousHash newBlock `shouldBe` getGenesisHash
                     it "Then the block have the time" $
-                        getTimeStamp (nextBlock genesisBlock time rawData) `shouldBe` time
+                        getTimeStamp newBlock `shouldBe` time
                     it "Then the block have the rawData" $
-                        getRawData (nextBlock genesisBlock time rawData) `shouldBe` rawData
+                        getRawData newBlock `shouldBe` rawData
                     it "Then the block have index 1" $
-                        getIndex (nextBlock genesisBlock time rawData) `shouldBe` 1
+                        getIndex newBlock `shouldBe` 1
+                    it "Then the block have the correct hash" $
+                        getHash newBlock `shouldBe` C.pack (hashMsg rawData)
 
 time = ""
 rawData = C.pack "some data"
+newBlock = nextBlock genesisBlock time rawData
