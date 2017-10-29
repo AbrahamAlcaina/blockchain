@@ -1,4 +1,4 @@
-module Crypto (createKeys, hashMsg, signSmallMsg, signBigMsg) where
+module Crypto (createKeys, hashMsg, signSmallMsg, signBigMsg, HashAlgoritm) where
 
 import           Crypto.Error
 import           Crypto.Hash            (Digest, hash)
