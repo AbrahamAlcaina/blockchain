@@ -48,7 +48,7 @@ after_script:
 
 after_success:
 - if [ "$TRAVIS_BRANCH" == "master" ]; then
-  docker build -t abrahamalcaina/blockchain .
+  docker build -t abrahamalcaina/blockchain .;
   docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
   docker push abrahamalcaina/blockchain;
   fi
