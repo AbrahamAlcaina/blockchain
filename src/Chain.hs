@@ -7,9 +7,11 @@ module Chain (
   , nextBlock
   , getTimeStamp
   , getRawData
+  , getHashpointIndex
+  , getHashpointHash
   , Blockchain
   , Block
-  , HashPoint(..)) where
+  , HashPoint) where
 
 import           Crypto                (HashAlgoritm, hashMsg)
 import qualified Data.ByteString       as BS
@@ -68,3 +70,5 @@ getRawData = rawData
 getHash = hash
 getPrevious = previous
 getGenesisHash = C.pack "75e13da2e9a446e01594ee3fda021abb1d8cfc11d8bda49735b692c5ef632285c3c937eb159e68cee47c9e53f6f721f0a4cf2099c4c01509f84de5aa38fdba79"
+getHashpointIndex = index
+getHashpointHash = hashPoint

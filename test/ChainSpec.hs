@@ -25,9 +25,12 @@ spec =
                 it "And It should have an specific hash" $
                     getHash genesisBlock `shouldBe` getGenesisHash
                 context "When I create a new block" $ do
-                    it "Then the new block should point the genesis block" $ do
+                    it "Then the new block should point the genesis block index" $ do
                         (time,block) <- mkBlock
-                        getPrevious block `shouldBe` HashPoint 0 getGenesisHash
+                        getHashpointIndex (getPrevious block) `shouldBe` 0
+                    it "Then the new block should point the genesis block hash" $ do
+                        (time,block) <- mkBlock
+                        getHashpointHash (getPrevious block) `shouldBe` getGenesisHash
                     it "Then the new block should have the rawData" $ do
                         (time,block) <- mkBlock
                         getRawData block `shouldBe` rawData
