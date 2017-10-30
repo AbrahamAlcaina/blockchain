@@ -3,29 +3,41 @@ module ChainSpec (spec) where
 import           Chain
 import           Crypto                (hashMsg)
 import qualified Data.ByteString.Char8 as C
+import           Data.Time.Clock
 import           SpecHelper
+import           System.IO
+
+
+rawData = C.pack "some data"
+
+mkBlock:: IO (UTCTime, Block)
+mkBlock = do
+    time <- getCurrentTime
+    return (time, nextBlock genesisBlock time rawData)
 
 spec::Spec
 spec =
     describe "Feature: Blockchain" $
-        describe "Given the user have a blockchain" $
-            describe "When I have a genesisBlock"$ do
+        context "Given the user have a blockchain" $
+            context "When I have a genesisBlock"$ do
                 it "Then It should have index 0" $
                     getIndex genesisBlock `shouldBe` 0
                 it "And It should have an specific hash" $
                     getHash genesisBlock `shouldBe` getGenesisHash
-                describe "When I create a new block" $ do
-                    it "Then the previousHash Should be the genesis Hash" $
-                        getPreviousHash newBlock `shouldBe` getGenesisHash
-                    it "Then the block have the time" $
-                        getTimeStamp newBlock `shouldBe` time
-                    it "Then the block have the rawData" $
-                        getRawData newBlock `shouldBe` rawData
-                    it "Then the block have index 1" $
-                        getIndex newBlock `shouldBe` 1
-                    it "Then the block have the correct hash" $
-                        getHash newBlock `shouldBe` C.pack (hashMsg rawData)
+                context "When I create a new block" $ do
+                    it "Then the new block should point the genesis block" $ do
+                        (time,block) <- mkBlock
+                        getPrevious block `shouldBe` HashPoint 0 getGenesisHash
+                    it "Then the new block should have the rawData" $ do
+                        (time,block) <- mkBlock
+                        getRawData block `shouldBe` rawData
+                    it "Then the new block should have index 1" $ do
+                        (time,block) <- mkBlock
+                        getIndex block `shouldBe` 1
+                    it "Then the new block should have the correct time" $ do
+                        (time,block) <- mkBlock
+                        getTimeStamp block `shouldBe` time
+                    it "Then the new block should have the correct hash" $ do
+                        (time,block) <- mkBlock
+                        getHash block `shouldBe` C.pack (hashMsg rawData)
 
-time = ""
-rawData = C.pack "some data"
-newBlock = nextBlock genesisBlock time rawData
