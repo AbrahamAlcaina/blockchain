@@ -24,6 +24,8 @@ spec =
                     getIndex genesisBlock `shouldBe` 0
                 it "And It should have an specific hash" $
                     getHash genesisBlock `shouldBe` getGenesisHash
+                it "written block shold be" $
+                    show genesisBlock `shouldBe` ("GenesisBlock {indexBlock = 0, hash = " ++ show getGenesisHash ++ "}" )
                 context "When I create a new block" $ do
                     it "Then the new block should point the genesis block index" $ do
                         (time,block) <- mkBlock
@@ -43,4 +45,7 @@ spec =
                     it "Then the new block should have the correct hash" $ do
                         (time,block) <- mkBlock
                         getHash block `shouldBe` C.pack (hashMsg rawData)
+                    it "Then the show should work" $ do
+                        (_, block) <- mkBlock
+                        show block `shouldNotBe` ""
 
