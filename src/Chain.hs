@@ -9,6 +9,7 @@ module Chain (
   , getRawData
   , getHashpointIndex
   , getHashpointHash
+  , getNonce
   , Blockchain
   , Block
   , HashPoint) where
@@ -31,6 +32,7 @@ data Block = Block {
   , rawData
   , hash::BS.ByteString
   , previous::HashPoint
+  , nonce::Int
 } | GenesisBlock {
   indexBlock::Int, hash::BS.ByteString
 } deriving (Show)
@@ -62,6 +64,7 @@ nextBlock previousBlock time raw = Block {
   , rawData = raw
   , hash = C.pack $ hashMsg raw -- include timestamp and indexblock also
   , previous = HashPoint (indexBlock previousBlock) (hash previousBlock)
+  , nonce = 0
 }
 
 getIndex = indexBlock
@@ -72,3 +75,4 @@ getPrevious = previous
 getGenesisHash = C.pack "75e13da2e9a446e01594ee3fda021abb1d8cfc11d8bda49735b692c5ef632285c3c937eb159e68cee47c9e53f6f721f0a4cf2099c4c01509f84de5aa38fdba79"
 getHashpointIndex = index
 getHashpointHash = hashPoint
+getNonce = nonce

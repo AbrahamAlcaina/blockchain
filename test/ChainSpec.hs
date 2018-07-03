@@ -45,6 +45,9 @@ spec =
                     it "Then the new block should have the correct hash" $ do
                         (time,block) <- mkBlock
                         getHash block `shouldBe` C.pack (hashMsg rawData)
+                    it "Then the new block should have nonce 0" $ do
+                        (time, block)<- mkBlock
+                        getNonce block `shouldBe` 0
                     it "Then the show should work" $ do
                         (_, block) <- mkBlock
                         show block `shouldNotBe` ""
