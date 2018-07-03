@@ -9,11 +9,13 @@ module Chain (
   , getRawData
   , getHashpointIndex
   , getHashpointHash
+  , getNonce
   , Blockchain
   , Block
   , HashPoint) where
 
 import           Crypto                (HashAlgoritm, hashMsg)
+import           Data.Binary           as B (encode)
 import qualified Data.ByteString       as BS
 import qualified Data.ByteString.Char8 as C
 import           Data.Time.Clock
@@ -31,6 +33,7 @@ data Block = Block {
   , rawData
   , hash::BS.ByteString
   , previous::HashPoint
+  , nonce::Int
 } | GenesisBlock {
   indexBlock::Int, hash::BS.ByteString
 } deriving (Show)
@@ -55,14 +58,18 @@ genesisBlock = GenesisBlock {
   , hash = getGenesisHash
 }
 
-nextBlock:: Block -> UTCTime -> BS.ByteString -> Block
-nextBlock previousBlock time raw = Block {
+nextBlock:: Block -> UTCTime -> BS.ByteString -> Int -> Block
+nextBlock previousBlock time raw nonce = Block {
   indexBlock = 1 + indexBlock previousBlock
   , timeStamp = time
   , rawData = raw
-  , hash = C.pack $ hashMsg raw -- include timestamp and indexblock also
+  , hash = C.pack $ hashMsg $ contentToHash raw nonce
   , previous = HashPoint (indexBlock previousBlock) (hash previousBlock)
+  , nonce = nonce
 }
+
+contentToHash :: BS.ByteString -> Int -> BS.ByteString
+contentToHash raw nonce = BS.append raw (C.pack $ show nonce)
 
 getIndex = indexBlock
 getTimeStamp = timeStamp
@@ -72,3 +79,4 @@ getPrevious = previous
 getGenesisHash = C.pack "75e13da2e9a446e01594ee3fda021abb1d8cfc11d8bda49735b692c5ef632285c3c937eb159e68cee47c9e53f6f721f0a4cf2099c4c01509f84de5aa38fdba79"
 getHashpointIndex = index
 getHashpointHash = hashPoint
+getNonce = nonce

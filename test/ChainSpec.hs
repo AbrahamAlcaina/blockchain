@@ -2,6 +2,7 @@ module ChainSpec (spec) where
 
 import           Chain
 import           Crypto                (hashMsg)
+import qualified Data.ByteString       as BS
 import qualified Data.ByteString.Char8 as C
 import           Data.Time.Clock
 import           SpecHelper
@@ -9,11 +10,13 @@ import           System.IO
 
 
 rawData = C.pack "some data"
+calculateHash :: BS.ByteString -> Int -> BS.ByteString
+calculateHash raw nonce = C.pack $ hashMsg $ BS.append raw (C.pack $ show nonce)
 
 mkBlock:: IO (UTCTime, Block)
 mkBlock = do
     time <- getCurrentTime
-    return (time, nextBlock genesisBlock time rawData)
+    return (time, nextBlock genesisBlock time rawData 0)
 
 spec::Spec
 spec =
@@ -44,7 +47,10 @@ spec =
                         getTimeStamp block `shouldBe` time
                     it "Then the new block should have the correct hash" $ do
                         (time,block) <- mkBlock
-                        getHash block `shouldBe` C.pack (hashMsg rawData)
+                        getHash block `shouldBe` calculateHash rawData (getNonce block)
+                    it "Then the new block should have nonce 0" $ do
+                        (time, block)<- mkBlock
+                        getNonce block `shouldBe` 0
                     it "Then the show should work" $ do
                         (_, block) <- mkBlock
                         show block `shouldNotBe` ""
