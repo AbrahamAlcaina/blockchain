@@ -15,6 +15,7 @@ module Chain (
   , HashPoint) where
 
 import           Crypto                (HashAlgoritm, hashMsg)
+import           Data.Binary           as B (encode)
 import qualified Data.ByteString       as BS
 import qualified Data.ByteString.Char8 as C
 import           Data.Time.Clock
@@ -57,15 +58,18 @@ genesisBlock = GenesisBlock {
   , hash = getGenesisHash
 }
 
-nextBlock:: Block -> UTCTime -> BS.ByteString -> Block
-nextBlock previousBlock time raw = Block {
+nextBlock:: Block -> UTCTime -> BS.ByteString -> Int -> Block
+nextBlock previousBlock time raw nonce = Block {
   indexBlock = 1 + indexBlock previousBlock
   , timeStamp = time
   , rawData = raw
-  , hash = C.pack $ hashMsg raw -- include timestamp and indexblock also
+  , hash = C.pack $ hashMsg $ contentToHash raw nonce
   , previous = HashPoint (indexBlock previousBlock) (hash previousBlock)
-  , nonce = 0
+  , nonce = nonce
 }
+
+contentToHash :: BS.ByteString -> Int -> BS.ByteString
+contentToHash raw nonce = BS.append raw (C.pack $ show nonce)
 
 getIndex = indexBlock
 getTimeStamp = timeStamp
