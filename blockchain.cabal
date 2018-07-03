@@ -21,6 +21,7 @@ library
                       , time
                       , cryptonite
                       , bytestring
+                      , binary
                       , vector
                       , distributed-process-p2p
                       , distributed-process
