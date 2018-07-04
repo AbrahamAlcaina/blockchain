@@ -11,7 +11,7 @@ import           System.IO
 
 rawData = C.pack "some data"
 calculateHash :: BS.ByteString -> Int -> BS.ByteString
-calculateHash raw nonce = C.pack $ hashMsg $ BS.append raw (C.pack $ show nonce)
+calculateHash raw nonce = hashMsg $ BS.append raw (C.pack $ show nonce)
 
 mkBlock:: IO (UTCTime, Block)
 mkBlock = do

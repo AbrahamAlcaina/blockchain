@@ -1,3 +1,5 @@
+{-# LANGUAGE OverloadedStrings #-}
+
 module Chain (
   genesisBlock
   , getIndex
@@ -14,12 +16,12 @@ module Chain (
   , Block
   , HashPoint) where
 
-import           Crypto                (HashAlgoritm, hashMsg)
-import           Data.Binary           as B (encode)
-import qualified Data.ByteString       as BS
-import qualified Data.ByteString.Char8 as C
+import           Crypto                        (HashAlgoritm, hashMsg)
+import qualified Data.ByteString               as BS
+import qualified Data.ByteString.Char8         as C
+import qualified Data.ByteString.Conversion.To as BSC
 import           Data.Time.Clock
-import           Data.Vector           (Vector)
+import           Data.Vector                   (Vector)
 
 type Blockchain = Vector Block
 
@@ -63,13 +65,13 @@ nextBlock previousBlock time raw nonce = Block {
   indexBlock = 1 + indexBlock previousBlock
   , timeStamp = time
   , rawData = raw
-  , hash = C.pack $ hashMsg $ contentToHash raw nonce
+  , hash = hashMsg $ concatForHash raw nonce
   , previous = HashPoint (indexBlock previousBlock) (hash previousBlock)
   , nonce = nonce
 }
 
-contentToHash :: BS.ByteString -> Int -> BS.ByteString
-contentToHash raw nonce = BS.append raw (C.pack $ show nonce)
+concatForHash :: BS.ByteString -> Int -> BS.ByteString
+concatForHash raw nonce = BS.append raw (BSC.toByteString' nonce)
 
 getIndex = indexBlock
 getTimeStamp = timeStamp

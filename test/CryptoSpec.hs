@@ -11,7 +11,7 @@ spec::Spec
 spec = describe "Feature: Cryptography" $ do
     describe "Scenario: User wants to get a hash of a message" $
         describe "Given I have a message `hola`" $
-            it ("Then the hash is " ++ getHash) $
+            it "Then the hash is correct" $
                 getByteStream `shouldBe` getHash
     describe "Scenario: User wants to sign a message" $
         describe "Given When I have private and publick key" $ do
@@ -27,7 +27,7 @@ spec = describe "Feature: Cryptography" $ do
                 describe "And they are equal" $
                     it "Then I should Have the same signature" $ do
                         (pk, sk) <- createKeys
-                        signBigMsg sk pk msgBS `shouldBe` sign sk pk (C.pack getByteStream)
+                        signBigMsg sk pk msgBS `shouldBe` sign sk pk getByteStream
                 describe "And they aren't equal" $
                     it "Then I should Have the same signature" $ do
                         (pk, sk) <- createKeys
@@ -43,4 +43,4 @@ msg = "hola"
 secondMessage = "differnt message"
 msgBS = C.pack msg
 getByteStream = hashMsg msgBS
-getHash = "42a46be94ae2242bdc13620cb065e64391059b8f909e27208293f462f3dd51669811446b3f8227c72bf6a1cf2628584429578b5d41756fbd02b40b45bfae8faf"
+getHash = C.pack "42a46be94ae2242bdc13620cb065e64391059b8f909e27208293f462f3dd51669811446b3f8227c72bf6a1cf2628584429578b5d41756fbd02b40b45bfae8faf"

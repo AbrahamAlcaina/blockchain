@@ -5,6 +5,7 @@ import           Crypto.Hash            (Digest, hash)
 import           Crypto.Hash.Algorithms (SHA3_512)
 import           Crypto.PubKey.Ed25519  (PublicKey, SecretKey, Signature, generateSecretKey, sign,
                                          toPublic)
+import           Data.ByteArray         (convert)
 
 import qualified Data.ByteString        as BS
 import qualified Data.ByteString.Char8  as C
@@ -16,11 +17,11 @@ createKeys = do
     sk <- generateSecretKey
     return (toPublic sk, sk)
 
-hashMsg::BS.ByteString -> String
-hashMsg bs = show (hash bs :: HashAlgoritm)
+hashMsg::BS.ByteString -> BS.ByteString
+hashMsg bs = C.pack $ show (hash bs :: HashAlgoritm)
 
 signSmallMsg:: SecretKey -> PublicKey -> BS.ByteString  -> Signature
 signSmallMsg = sign
 
 signBigMsg:: SecretKey -> PublicKey -> BS.ByteString -> Signature
-signBigMsg sk pk msg = signSmallMsg sk pk  $ C.pack (hashMsg msg)
+signBigMsg sk pk msg = signSmallMsg sk pk $ hashMsg msg
